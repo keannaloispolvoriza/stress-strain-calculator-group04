@@ -29,7 +29,7 @@ class Material:
 
     def can_withstand_stress(self, stress: float) -> bool:
         """Check whether the material can withstand stress."""
-        return stress < self.yield_strength
+        return stress <= self.yield_strength
 
     def __str__(self) -> str:
         return (
