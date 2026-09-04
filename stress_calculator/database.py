@@ -43,3 +43,21 @@ def create_material_database():
 def get_material(database, choice):
     """Return a selected material from the database."""
     return database.get(choice)
+
+
+import json 
+def save_results(results, filename): 
+    with open(filename, "w") as file:
+        json.dump(results, file, indent=4)
+
+import csv
+def export_results(results, filename):
+    with open(filename, "w", newline="") as file:
+        writer = csv.DictWriter(
+            file,
+            fieldnames=results[0].keys()
+        )
+        writer.writeheader()
+        writer.writerows(results)
+    
+    
