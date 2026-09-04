@@ -1,3 +1,5 @@
+import json
+import csv
 from properties import MaterialProperties
 from material import Metal
 
@@ -43,20 +45,19 @@ def create_material_database():
 def get_material(database, choice):
     """Return a selected material from the database."""
     return database.get(choice)
+    if material is None:
+        raise KeyError((f"No material found for choice '{choice}'")
 
 
-import json 
 def save_results(results, filename): 
     with open(filename, "w") as file:
         json.dump(results, file, indent=4)
 
-import csv
 def export_results(results, filename):
+    if not results:
+        raise ValueError("No results to export")
     with open(filename, "w", newline="") as file:
-        writer = csv.DictWriter(
-            file,
-            fieldnames=results[0].keys()
-        )
+        writer = csv.DictWriter(file, fieldnames=results[0].keys())
         writer.writeheader()
         writer.writerows(results)
     
