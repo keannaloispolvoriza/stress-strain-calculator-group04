@@ -2,21 +2,19 @@ from dataclasses import dataclass
 
 @dataclass 
 class MaterialProperties:
-  """"Properties of a material."""
+    """Properties of a material."""
 
-  density: float
-  yield_strength: float
-  typical_youngs_modulus: float
+    density: float
+    yield_strength: float
+    typical_youngs_modulus: float
 
-  def __post_init__(self):
-      if self.density <= 0:
-        raise ValueError("Density must be positive.")
+    def __post_init__(self):
+        if self.density <= 0:
+            raise ValueError("Density must be positive.")
 
-      if self.yield_strength <= 0: 
-        raise ValueError("Yield strength must be positive:")
+        if self.yield_strength <= 0: 
+            raise ValueError("Yield strength must be positive.")
 
-      if self.typical_youngs_modulus <= 0:
-        raise ValueError(
-            "Young's modulus must be positive."
-        )
+        if self.typical_youngs_modulus <= 0:
+            raise ValueError("Young's modulus must be positive.")
   
