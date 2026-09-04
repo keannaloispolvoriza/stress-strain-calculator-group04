@@ -2,7 +2,9 @@ from database import (
     MATERIALS,
     REQUIRED_SAFETY_FACTOR,
     get_material,
-    create_custom_material
+    create_custom_material,
+    save_results_to_json,
+    export_results_to_csv
 )
 
 from tests import StressStrainTest, TestAnalysis
