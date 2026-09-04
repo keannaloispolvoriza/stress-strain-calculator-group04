@@ -7,27 +7,22 @@ materials = {
     "3": {"name": "Copper", "yield_strength": 78e6}
 }
 
-# Min factor of safety
 required_safety_factor = 1.5
 
 # CALCULATION FUNCTIONS
-
 def calculate_stress(force, area):
     return force / area
 """calculate stress using force and area."""
 
-
 def calculate_strain(change_in_length, original_length):
     return change_in_length / original_length
 """calculate strain using change in length and original length."""
-
 
 def calculate_youngs_modulus(stress, strain):
     if strain == 0:
         return None
     return stress / strain
 """calculate young's modulus using stress and strain."""
-
 
 def calculate_factor_of_safety(yield_strength, stress):
     if stress == 0:
@@ -37,7 +32,6 @@ def calculate_factor_of_safety(yield_strength, stress):
 
 
 # VALIDATION FUNCTIONS
-
 def get_positive_number(prompt):
     while True:
         try:
@@ -51,7 +45,6 @@ def get_positive_number(prompt):
         except ValueError:
             print("Please enter a valid number.")
 """get a number greater than zero."""
-
 
 def get_non_negative_number(prompt):
     while True:
@@ -69,7 +62,6 @@ def get_non_negative_number(prompt):
 
 
 # MATERIAL MANAGEMENT
-
 def select_material():
     
     while True:
@@ -109,7 +101,6 @@ def select_material():
 
 
 # SAFETY ANALYSIS
-
 def analyze_safety(factor_of_safety):    
     if factor_of_safety >= required_safety_factor:
         return "SAFE"
@@ -120,7 +111,6 @@ def analyze_safety(factor_of_safety):
 
 
 # DISPLAY FUNCTION
-
 def display_results(
         material_name,
         stress,
@@ -146,11 +136,8 @@ def display_results(
 
 """displays the stress and strain analysis results."""
 
-
 calculation_history = []
-
 materials_used = set()
-
 
 def record_calculation(
         material_name,
@@ -182,7 +169,6 @@ def record_calculation(
     calculation_history.append(test_record)
     materials_used.add(material_name)
 
-
 def display_session_summary():
     print("\n=== Session Summary ===")
 
@@ -211,6 +197,7 @@ def display_session_summary():
     print(f"Lowest Stress: {lowest_stress:,.2f} Pa")
 
 """display a summary of all calculations."""
+
 
 # MAIN FUNCTION
 """run the Stress and Strain Analysis System."""
@@ -312,7 +299,5 @@ def main():
     display_session_summary()
     print("\nProgram ended. Thank you!")
 
-
-# Program start
 if __name__ == "__main__":
     main()
