@@ -27,10 +27,7 @@ class Material:
         """Get typical Young's modulus."""
         return self.properties.typical_youngs_modulus
 
-    def can_withstand_stress(
-        self,
-        stress: float
-    ) -> bool:
+    def can_withstand_stress(self, stress: float) -> bool:
         """Check whether the material can withstand stress."""
         return stress < self.yield_strength
 
@@ -54,10 +51,7 @@ class Metal(Material):
         self.is_ferrous = is_ferrous
 
     def __str__(self) -> str:
-        if self.is_ferrous:
-            metal_type = "Ferrous"
-        else:
-            metal_type = "Non-ferrous"
+        metal_type = "Ferrous" if self.is_ferrous else "Non-ferrous"
 
         return (
             f"{self.name} "
