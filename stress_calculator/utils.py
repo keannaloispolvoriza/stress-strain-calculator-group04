@@ -1,42 +1,52 @@
-def validate_input(force, area, original_length, change_in_length):    
+def validate_positive_number(value, parameter_name):
+    """Validate that a number is positive."""
+    if value <= 0:
+        raise ValueError(
+            f"{parameter_name} must be greater than zero."
+        )
+
+    return value
+
+def calculate_stress(force, area):
+    """Calculate stress using force and area."""
+    validate_positive_number(area, "Area")
+
     if force < 0:
-        return False
-    if area <= 0:
-        return False
-    if original_length <= 0:
-        return False
-    if change_in_length < 0:
-        return False 
-    return True
-    
-"""validate if all inputs are valid for calculations."""
+        raise ValueError("Force cannot be negative.")
 
-def calculate_stress(force, area):    
     return force / area
-"""calculate stress using force and area."""
 
-def calculate_strain(original_length, change_in_length):    
+def calculate_strain(original_length, change_in_length):
+    """Calculate strain."""
+    validate_positive_number(
+        original_length,
+        "Original length"
+    )
+
     return change_in_length / original_length
-"""calculate strain using original length and change in length."""
 
-def calculate_youngs_modulus(stress, strain):    
+def calculate_youngs_modulus(stress, strain):
+    """Calculate Young's modulus."""
     if strain == 0:
         return None
-    return stress / strain
-"""calculate Young's modulus using stress and strain."""
 
-def main_calculator(material, force, area, original_length, change_in_length):    
-    if not validate_input(force, area, original_length, change_in_length):
-        return "Invalid input values."
-    
-    stress = calculate_stress(force, area)
-    strain = calculate_strain(original_length, change_in_length)
-    youngs_modulus = calculate_youngs_modulus(stress, strain)
-    
-    return {
-        "material": material,
-        "stress": stress,
-        "strain": strain,
-        "youngs_modulus": youngs_modulus
-    }
-"""main function to organize the stress-strain calculations."""
+    return stress / strain
+
+def calculate_factor_of_safety(yield_strength, stress):
+    """Calculate factor of safety."""
+    if stress == 0:
+        return None
+
+    return yield_strength / stress
+
+def pascal_to_mpa(value):
+    """Convert Pa to MPa."""
+    return value / 1_000_000
+
+def mpa_to_pascal(value):
+    """Convert MPa to Pa."""
+    return value * 1_000_000
+
+def pascal_to_gpa(value):
+    """Convert Pa to GPa."""
+    return value / 1_000_000_000
