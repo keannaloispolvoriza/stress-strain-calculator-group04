@@ -1,6 +1,378 @@
-class Material:
-    """Represents a general material and its mechanical properties."""
+from dataclasses import dataclass
 
-    def __init__(self, name, yield_strength):
+
+# MATERIAL PROPERTIES
+
+
+@dataclass
+class MaterialProperties:
+    """Properties of a material."""
+
+    density: float
+    yield_strength: float
+    typical_youngs_modulus: float
+
+    def __post_init__(self):
+        if self.density <= 0:
+            raise ValueError("Density must be positive.")
+
+        if self.yield_strength <= 0:
+            raise ValueError(
+                "Yield strength must be positive."
+            )
+
+        if self.typical_youngs_modulus <= 0:
+            raise ValueError(
+                "Young's modulus must be positive."
+            )
+
+# MATERIAL CLASS HIERARCHY
+
+class Material:
+    """Base class for all materials."""
+
+    def __init__(
+        self,
+        name: str,
+        properties: MaterialProperties
+    ):
         self.name = name
-        self._yield_strength = yield_strength
+        self.properties = properties
+
+    @property
+    def density(self) -> float:
+        """Get material density."""
+
+        return self.properties.density
+
+    @property
+    def yield_strength(self) -> float:
+        """Get material yield strength."""
+
+        return self.properties.yield_strength
+
+    @property
+    def typical_youngs_modulus(self) -> float:
+        """Get typical Young's modulus."""
+
+        return self.properties.typical_youngs_modulus
+
+    def can_withstand_stress(
+        self,
+        stress: float
+    ) -> bool:
+        """Check whether the material can withstand stress."""
+
+        return stress < self.yield_strength
+
+    def __str__(self) -> str:
+        return (
+            f"{self.name} "
+            f"(Density: {self.density} kg/m³)"
+        )
+
+
+class Metal(Material):
+    """A metal material."""
+
+    def __init__(
+        self,
+        name: str,
+        properties: MaterialProperties,
+        is_ferrous: bool = False
+    ):
+        super().__init__(name, properties)
+        self.is_ferrous = is_ferrous
+
+    def __str__(self) -> str:
+
+        if self.is_ferrous:
+            metal_type = "Ferrous"
+        else:
+            metal_type = "Non-ferrous"
+
+        return (
+            f"{self.name} "
+            f"({metal_type} metal, "
+            f"Density: {self.density} kg/m³)"
+        )
+
+
+class Plastic(Material):
+    """A plastic material."""
+
+    def __str__(self) -> str:
+        return (
+            f"{self.name} "
+            f"(Plastic, "
+            f"Density: {self.density} kg/m³)"
+        )
+
+
+class Composite(Material):
+    """A composite material."""
+
+    def __str__(self) -> str:
+        return (
+            f"{self.name} "
+            f"(Composite, "
+            f"Density: {self.density} kg/m³)"
+        )
+
+
+# STRESS-STRAIN TEST
+
+class StressStrainTest:
+    """A single stress-strain test."""
+
+    def __init__(
+        self,
+        material: Material,
+        force: float,
+        area: float,
+        original_length: float,
+        change_in_length: float
+    ):
+        self.material = material
+        self._force = force
+        self._area = area
+        self._original_length = original_length
+        self._change_in_length = change_in_length
+
+        self._validate_inputs()
+
+    def _validate_inputs(self) -> None:
+        """Validate test inputs."""
+
+        if self._force <= 0:
+            raise ValueError(
+                "Force must be positive."
+            )
+
+        if self._area <= 0:
+            raise ValueError(
+                "Area must be positive."
+            )
+
+        if self._original_length <= 0:
+            raise ValueError(
+                "Original length must be positive."
+            )
+
+        if self._change_in_length < 0:
+            raise ValueError(
+                "Change in length cannot be negative."
+            )
+
+    # Getters
+    @property
+    def force(self) -> float:
+        return self._force
+
+    @property
+    def area(self) -> float:
+        return self._area
+
+    @property
+    def original_length(self) -> float:
+        return self._original_length
+
+    @property
+    def change_in_length(self) -> float:
+        return self._change_in_length
+
+    # Calculations
+    @property
+    def stress(self) -> float:
+        """Calculate stress in Pa."""
+
+        return self.force / self.area
+
+    @property
+    def strain(self) -> float:
+        """Calculate strain."""
+
+        return (
+            self.change_in_length /
+            self.original_length
+        )
+
+    @property
+    def youngs_modulus(self) -> float | None:
+        """Calculate observed Young's modulus."""
+
+        if self.strain == 0:
+            return None
+
+        return self.stress / self.strain
+
+    def will_fail(self) -> bool:
+        """Determine if the material is likely to fail."""
+
+        return not self.material.can_withstand_stress(
+            self.stress
+        )
+
+    def __str__(self) -> str:
+
+        if self.youngs_modulus is None:
+            modulus = "Undefined"
+        else:
+            modulus = (
+                f"{self.youngs_modulus:,.2f} Pa"
+            )
+
+        return (
+            f"Test on {self.material.name}: "
+            f"Stress={self.stress:,.2f} Pa, "
+            f"Strain={self.strain:.6f}, "
+            f"Young's Modulus={modulus}"
+        )
+
+    def __lt__(
+        self,
+        other: "StressStrainTest"
+    ) -> bool:
+        """Compare tests based on stress."""
+
+        if not isinstance(other, StressStrainTest):
+            return NotImplemented
+
+        return self.stress < other.stress
+
+# TEST ANALYSIS SYSTEM
+
+class TestAnalysis:
+    """Compare and analyze multiple stress-strain tests."""
+
+    def __init__(self):
+        self._tests: list[StressStrainTest] = []
+
+    def add_test(
+        self,
+        test: StressStrainTest
+    ) -> None:
+        """Add a stress-strain test."""
+
+        if not isinstance(test, StressStrainTest):
+            raise TypeError(
+                "Only StressStrainTest objects are allowed."
+            )
+
+        self._tests.append(test)
+
+    @property
+    def tests(self) -> tuple:
+        """Get all tests."""
+
+        return tuple(self._tests)
+
+    def highest_stress(
+        self
+    ) -> StressStrainTest | None:
+        """Find the test with the highest stress."""
+
+        if not self._tests:
+            return None
+
+        return max(self._tests)
+
+    def summary(self) -> str:
+        """Generate a summary report."""
+
+        if not self._tests:
+            return "No tests available."
+
+        average_stress = (
+            sum(test.stress for test in self._tests)
+            / len(self._tests)
+        )
+
+        average_strain = (
+            sum(test.strain for test in self._tests)
+            / len(self._tests)
+        )
+
+        highest = self.highest_stress()
+
+        return (
+            f"Total Tests: {len(self._tests)}\n"
+            f"Average Stress: "
+            f"{average_stress:,.2f} Pa\n"
+            f"Average Strain: "
+            f"{average_strain:.6f}\n"
+            f"Highest Stress: "
+            f"{highest.stress:,.2f} Pa "
+            f"({highest.material.name})"
+        )
+
+# EXAMPLE USAGE
+
+steel_properties = MaterialProperties(
+    density=7850,
+    yield_strength=250e6,
+    typical_youngs_modulus=200e9
+)
+
+steel = Metal(
+    "Steel",
+    steel_properties,
+    is_ferrous=True
+)
+
+aluminum_properties = MaterialProperties(
+    density=2700,
+    yield_strength=150e6,
+    typical_youngs_modulus=69e9
+)
+
+aluminum = Metal(
+    "Aluminum",
+    aluminum_properties
+)
+
+steel_test = StressStrainTest(
+    steel,
+    force=5000,
+    area=25,
+    original_length=100,
+    change_in_length=0.5
+)
+
+aluminum_test = StressStrainTest(
+    aluminum,
+    force=4000,
+    area=25,
+    original_length=100,
+    change_in_length=0.4
+)
+
+analysis = TestAnalysis()
+
+analysis.add_test(steel_test)
+analysis.add_test(aluminum_test)
+
+# DISPLAY RESULTS
+
+print("=== Stress and Strain Analysis System ===")
+print()
+
+print(steel)
+print(aluminum)
+
+print("\n=== Test Results ===")
+print(steel_test)
+print(
+    f"Will the material fail? "
+    f"{'Yes' if steel_test.will_fail() else 'No'}"
+)
+
+print()
+print(aluminum_test)
+print(
+    f"Will the material fail? "
+    f"{'Yes' if aluminum_test.will_fail() else 'No'}"
+)
+
+print("\n=== Test Analysis ===")
+print(analysis.summary())
