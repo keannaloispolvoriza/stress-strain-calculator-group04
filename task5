@@ -1,0 +1,6 @@
+class Material:
+    """Represents a general material and its mechanical properties."""
+
+    def __init__(self, name, yield_strength):
+        self.name = name
+        self._yield_strength = yield_strength
