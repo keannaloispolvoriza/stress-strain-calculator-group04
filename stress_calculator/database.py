@@ -46,6 +46,14 @@ def create_material_database():
 
 MATERIALS = create_material_database()
 
+
+def get_material(database, choice):
+    """Return a selected material from the database."""
+    return database.get(choice)
+    if material is None:
+        raise KeyError(f"No material found for choice '{choice}'")
+    return material    
+
 def create_custom_material():
     """Create a custom material from user input."""
 
@@ -106,14 +114,6 @@ def create_custom_material():
     )
 
     return Material(name, properties)
-
-def get_material(database, choice):
-    """Return a selected material from the database."""
-    return database.get(choice)
-    if material is None:
-        raise KeyError(f"No material found for choice '{choice}'")
-    return material    
-
 
 def save_results_to_json(results, filename): 
     with open(filename, "w") as file:
