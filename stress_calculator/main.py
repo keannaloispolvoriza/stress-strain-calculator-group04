@@ -183,53 +183,15 @@ def main():
                 break
 
             if again == "n":
-                break
-            #session summary
-    print("\n=== Session Summary ===")
-    print(analysis.summary())
-
-    if analysis.tests:
-
-        save_choice = input(
-            "\nSave results to JSON? (y/n): "
-        ).strip().lower()
-
-        if save_choice == "y":
-            filepath = save_results_to_json(
-                analysis.tests
-            )
-
-            print(
-                f"Results saved to {filepath}."
-            )
-
-        load_choice = input(
-            "Load saved JSON results? (y/n): "
-        ).strip().lower()
-
-        if load_choice == "y":
-            try:
-                saved_results = load_results_from_json()
-
-                print(
-                    f"Loaded {len(saved_results)} "
-                    f"saved result(s)."
-                )
-
-            except FileNotFoundError as error:
-                print(error)
-
-        csv_choice = input(
-            "Export results to CSV? (y/n): "
-        ).strip().lower()
-
-        if csv_choice == "y":
-            filepath = export_results_to_csv(
-                analysis.tests
-            )
-
-            print(
-                f"Results exported to {filepath}."
-            )
-
-    print("\nProgram ended. Thank you!")
+                print("\n=== Session Summary ===") 
+                print(analysis.summary()) 
+                
+                print("\nProgram ended. Thank you!") 
+                return 
+            print("Please enter y or n.")
+        print("\n=== Session Summary ===") 
+        print(analysis.summary())
+        
+        print("\nProgram ended. Thank you!")
+if __name__ == "__main__": 
+    main()
