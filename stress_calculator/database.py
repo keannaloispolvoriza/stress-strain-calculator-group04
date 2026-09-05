@@ -4,6 +4,7 @@ from material import Material, Metal
 from properties import MaterialProperties
 material = Metal
 
+
 REQUIRED_SAFETY_FACTOR = 1.5
 
 def create_material_database():
@@ -113,7 +114,7 @@ def create_custom_material():
     )
 
     return Material(name, properties)
-    
+
 def save_results_to_json(results, filename): 
     with open(filename, "w") as file:
         json.dump(results, file, indent=4)
@@ -125,3 +126,4 @@ def export_results_to_csv(results, filename):
         writer = csv.DictWriter(file, fieldnames=results[0].keys())
         writer.writeheader()
         writer.writerows(results)
+    
