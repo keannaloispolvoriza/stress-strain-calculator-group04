@@ -1,16 +1,10 @@
 import json
 import csv
-from datetime import datetime
-from pathlib import Path
 from material import Material, Metal
 from properties import MaterialProperties
 material = Metal
 
-
 REQUIRED_SAFETY_FACTOR = 1.5
-
-RESULTS_FOLDER = Path("results")
-RESULTS_FOLDER.mkdir(exist_ok=True)
 
 def create_material_database():
     """Create and return the built-in material database."""
@@ -119,87 +113,15 @@ def create_custom_material():
     )
 
     return Material(name, properties)
+    
+def save_results_to_json(results, filename): 
+    with open(filename, "w") as file:
+        json.dump(results, file, indent=4)
 
-def convert_test_to_dict(test):
-    """Convert a StressStrainTest object into a dictionary."""
-
-    return {
-        "timestamp": datetime.now().isoformat(
-            timespec="seconds"
-        ),
-        "material": test.material.name,
-        "force": test.force,
-        "area": test.area,
-        "original_length": test.original_length,
-        "change_in_length": test.change_in_length,
-        "stress": test.stress,
-        "strain": test.strain,
-        "youngs_modulus": test.youngs_modulus,
-        "factor_of_safety": test.factor_of_safety()
-    }
-
-
-def save_results_to_json(results, filename="results.json"):
-    """Save test results to a JSON file."""
-
-    data = []
-
-    for test in results:
-        data.append(convert_test_to_dict(test))
-
-    filepath = RESULTS_FOLDER / filename
-
-    with open(filepath, "w") as file:
-        json.dump(
-            data,
-            file,
-            indent=4
-        )
-
-    return filepath
-
-
-def load_results_from_json(filename="results.json"):
-    """Load test results from a JSON file."""
-
-    filepath = RESULTS_FOLDER / filename
-
-    if not filepath.exists():
-        raise FileNotFoundError(
-            f"No file found: {filepath}"
-        )
-
-    with open(filepath, "r") as file:
-        return json.load(file)
-
-
-def export_results_to_csv(results, filename="results.csv"):
-    """Export test results to a CSV file."""
-
+def export_results_to_csv(results, filename):
     if not results:
-        raise ValueError(
-            "No results to export."
-        )
-
-    data = []
-
-    for test in results:
-        data.append(convert_test_to_dict(test))
-
-    filepath = RESULTS_FOLDER / filename
-
-    with open(
-        filepath,
-        "w",
-        newline=""
-    ) as file:
-
-        writer = csv.DictWriter(
-            file,
-            fieldnames=data[0].keys()
-        )
-
+        raise ValueError("No results to export")
+    with open(filename, "w", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=results[0].keys())
         writer.writeheader()
-        writer.writerows(data)
-
-    return filepath
+        writer.writerows(results)
