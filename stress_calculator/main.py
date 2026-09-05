@@ -112,10 +112,10 @@ def display_test_results(test):
 
     print(
         f"Factor of Safety: "
-        f"{test.factor_of_safety:.2f}"
+        f"{test.factor_of_safety():.2f}"
     )
 
-    if test.factor_of_safety >= REQUIRED_SAFETY_FACTOR:
+    if test.factor_of_safety() >= REQUIRED_SAFETY_FACTOR:
         print("Safety Result: SAFE")
     else:
         print("Safety Result: UNSAFE")
