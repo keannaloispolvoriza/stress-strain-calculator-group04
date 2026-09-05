@@ -1,6 +1,6 @@
 import json
 import csv
-from material import Metal
+from material import Material, Metal
 from properties import MaterialProperties
 material = Metal
 
