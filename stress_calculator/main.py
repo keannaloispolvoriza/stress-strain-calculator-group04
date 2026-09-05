@@ -189,31 +189,33 @@ def main():
                 return
 
             print("Please enter y or n.")
+            print("\n=== Session Summary ===")
+            print(analysis.summary())
+            if analysis.tests:
+                save_choice = input(
+                    "\nSave results to JSON? (y/n): "
+                ).strip().lower()
+                
+            if save_choice == "y":
+                save_results_to_json(
+                    analysis.tests,
+                    "results.json"
+                )
+                print("Results saved to results.json.")
+            csv_choice = input(
+                "Export results to CSV? (y/n): "
+            ).strip().lower()
+            
+            if csv_choice == "y":
+                export_results_to_csv(
+                    analysis.tests,
+                    "results.csv"
+                )
+                print("Results exported to results.csv.")
 
-if analysis.tests:
-    save_choice = input(
-        "\nSave results to JSON? (y/n): "
-    ).strip().lower()
+    
 
-    if save_choice == "y":
-        save_results_to_json(
-            analysis.tests,
-            "results.json"
-        )
-        print("Results saved to results.json.")
 
-    csv_choice = input(
-        "Export results to CSV? (y/n): "
-    ).strip().lower()
-
-    if csv_choice == "y":
-        export_results_to_csv(
-            analysis.tests,
-            "results.csv"
-        )
-        print("Results exported to results.csv.")
-    print("\n=== Session Summary ===")
-    print(analysis.summary())
     print("\nProgram ended. Thank you!")
 
 
