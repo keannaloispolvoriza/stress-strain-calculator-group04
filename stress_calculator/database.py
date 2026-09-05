@@ -46,6 +46,66 @@ def create_material_database():
 
 MATERIALS = create_material_database()
 
+def create_custom_material():
+    """Create a custom material from user input."""
+
+    name = input("Enter material name: ").strip()
+
+    if not name:
+        raise ValueError("Material name cannot be empty.")
+
+    while True:
+        try:
+            density = float(
+                input("Enter density (kg/m³): ")
+            )
+
+            if density <= 0:
+                print("Density must be greater than 0.")
+                continue
+
+            break
+
+        except ValueError:
+            print("Please enter a valid number.")
+
+    while True:
+        try:
+            yield_strength_mpa = float(
+                input("Enter yield strength (MPa): ")
+            )
+
+            if yield_strength_mpa <= 0:
+                print("Yield strength must be greater than 0.")
+                continue
+
+            break
+
+        except ValueError:
+            print("Please enter a valid number.")
+
+    while True:
+        try:
+            youngs_modulus_gpa = float(
+                input("Enter Young's modulus (GPa): ")
+            )
+
+            if youngs_modulus_gpa <= 0:
+                print("Young's modulus must be greater than 0.")
+                continue
+
+            break
+
+        except ValueError:
+            print("Please enter a valid number.")
+
+    properties = MaterialProperties(
+        density=density,
+        yield_strength=yield_strength_mpa * 1_000_000,
+        typical_youngs_modulus=youngs_modulus_gpa * 1_000_000_000
+    )
+
+    return Material(name, properties)
 
 def get_material(database, choice):
     """Return a selected material from the database."""
