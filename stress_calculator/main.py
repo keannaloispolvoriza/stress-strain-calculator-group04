@@ -9,6 +9,7 @@ from database import (
 )
 
 from tests import StressStrainTest, TestAnalysis
+from utils import calculate_stress, calculate_strain, calculate_youngs_modulus
 
 
 def get_positive_number(prompt):
@@ -152,12 +153,17 @@ def main():
         )
 
         try:
+            stress = calculate_stress(force, area)
+            strain = calculate_strain(original_length, change_in_length)
+            youngs_modulus = calculate_youngs_modulus(stress, strain)
+            
             test = StressStrainTest(
                 material,
                 force,
                 area,
                 original_length,
-                change_in_length
+                change_in_length,
+                youngs_modulus
             )
 
             analysis.add_test(test)
