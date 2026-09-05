@@ -1,8 +1,9 @@
 from database import (
+    material,
     MATERIALS,
     REQUIRED_SAFETY_FACTOR,
     get_material,
-    create_custom_material,
+    create_material_database,
     save_results_to_json,
     export_results_to_csv
 )
@@ -191,3 +192,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
