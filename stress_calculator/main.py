@@ -3,7 +3,7 @@ from database import (
     MATERIALS,
     REQUIRED_SAFETY_FACTOR,
     get_material,
-    create_material_database,
+    create_custom_material,
     save_results_to_json,
     export_results_to_csv
 )
