@@ -9,6 +9,7 @@ from database import (
 )
 
 from tests import StressStrainTest, TestAnalysis
+from utils import calculate_stress, calculate_strain, calculate_youngs_modulus
 
 
 def get_positive_number(prompt):
@@ -75,7 +76,7 @@ def select_material():
                 print(f"Invalid material: {error}")
                 continue
 
-        material = get_material(choice)
+        material = get_material(MATERIALS, choice)
 
         if material is not None:
             return material
@@ -111,10 +112,10 @@ def display_test_results(test):
 
     print(
         f"Factor of Safety: "
-        f"{test.factor_of_safety:.2f}"
+        f"{test.factor_of_safety():.2f}"
     )
 
-    if test.factor_of_safety >= REQUIRED_SAFETY_FACTOR:
+    if test.factor_of_safety() >= REQUIRED_SAFETY_FACTOR:
         print("Safety Result: SAFE")
     else:
         print("Safety Result: UNSAFE")
@@ -152,12 +153,17 @@ def main():
         )
 
         try:
+            stress = calculate_stress(force, area)
+            strain = calculate_strain(original_length, change_in_length)
+            youngs_modulus = calculate_youngs_modulus(stress, strain)
+            
             test = StressStrainTest(
                 material,
                 force,
                 area,
                 original_length,
-                change_in_length
+                change_in_length,
+                youngs_modulus
             )
 
             analysis.add_test(test)
@@ -192,4 +198,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
