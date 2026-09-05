@@ -46,7 +46,7 @@ def get_material(database, choice):
     """Return a selected material from the database."""
     return database.get(choice)
     if material is None:
-        raise KeyError((f"No material found for choice '{choice}'")
+        raise KeyError(f"No material found for choice '{choice}'")
 
 
 def save_results(results, filename): 
