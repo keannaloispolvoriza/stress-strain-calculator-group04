@@ -1,10 +1,10 @@
 from database import (
+    material,
     MATERIALS,
     REQUIRED_SAFETY_FACTOR,
     get_material,
     create_custom_material,
     save_results_to_json,
-    load_results_from_json,
     export_results_to_csv
 )
 
@@ -183,15 +183,18 @@ def main():
                 break
 
             if again == "n":
-                print("\n=== Session Summary ===") 
-                print(analysis.summary()) 
-                
-                print("\nProgram ended. Thank you!") 
-                return 
+                print("\n=== Session Summary ===")
+                print(analysis.summary())
+                print("\nProgram ended. Thank you!")
+                return
+
             print("Please enter y or n.")
-        print("\n=== Session Summary ===") 
-        print(analysis.summary())
-        
-        print("\nProgram ended. Thank you!")
-if __name__ == "__main__": 
+
+
+    print("\n=== Session Summary ===")
+    print(analysis.summary())
+    print("\nProgram ended. Thank you!")
+
+
+if __name__ == "__main__":
     main()
