@@ -76,7 +76,7 @@ def select_material():
                 print(f"Invalid material: {error}")
                 continue
 
-        material = get_material(choice)
+        material = get_material(MATERIALS, choice)
 
         if material is not None:
             return material
