@@ -52,6 +52,8 @@ python main.py
 ## Repository Structure
 
 The application is organized into separate modules based on their responsibilities:
+
+```
 stress-strain-calculator-group04-14/
 │
 ├── material.py
@@ -61,59 +63,64 @@ stress-strain-calculator-group04-14/
 ├── database.py
 ├── main.py
 └── README.md
+```
 
-1. material.py
-Contains the material class hierarchy and material-related behavior.
-2. properties.py
-Contains material property information and dataclasses used by the application.
-3. tests.py
-Contains the classes and functionality used to represent and analyze stress-strain tests.
-4. utils.py
-Contains reusable calculation functions, including stress, strain, and Young's modulus calculations.
-5. database.py
-Contains the predefined material database, custom material creation, safety factor configuration, and data management functions.
-6. main.py
-Serves as the main entry point of the application. It coordinates material selection, user input, calculations, test creation, result display, and session summaries.
-7. README.md
-Contains documentation about the project, its features, structure, installation, usage, testing, and group contributions.
+### Module Descriptions
+
+1. **material.py** – Contains the material class hierarchy and material-related behavior.
+2. **properties.py** – Contains material property information and dataclasses used by the application.
+3. **tests.py** – Contains the classes and functionality used to represent and analyze stress-strain tests.
+4. **utils.py** – Contains reusable calculation functions, including stress, strain, and Young's modulus calculations.
+5. **database.py** – Contains the predefined material database, custom material creation, safety factor configuration, and data management functions.
+6. **main.py** – Serves as the main entry point of the application. It coordinates material selection, user input, calculations, test creation, result display, and session summaries.
+7. **README.md** – Contains documentation about the project, its features, structure, installation, usage, testing, and group contributions.
 
 ## Testing Requirements
-Sample Test Cases:
 
-Test 1 – Steel
-Required test input:
-Material: Steel
-Force: 50,000 N
-Area: 0.01 m²
-Original Length: 10 m
-Change in Length: 0.005 m
+### Sample Test Cases
 
-Expected:
-Stress = 5,000,000 Pa
-Strain = 0.0005
+#### Test 1 – Steel
 
-Test 2 – Aluminum
-Required test input:
-Material: Aluminum
-Force: 10,000 N
-Area: 0.002 m²
-Original Length: 1 m
-Change in Length: 0.0015 m
+**Required Test Input:**
 
-Expected:
-Stress = 5,000,000 Pa
-Strain = 0.0015
+- Material: Steel
+- Force: 50,000 N
+- Area: 0.01 m²
+- Original Length: 10 m
+- Change in Length: 0.005 m
 
-Additional Tests
+**Expected Results:**
+
+- Stress = 5,000,000 Pa
+- Strain = 0.0005
+
+#### Test 2 – Aluminum
+
+**Required Test Input:**
+
+- Material: Aluminum
+- Force: 10,000 N
+- Area: 0.002 m²
+- Original Length: 1 m
+- Change in Length: 0.0015 m
+
+**Expected Results:**
+
+- Stress = 5,000,000 Pa
+- Strain = 0.0015
+
+### Additional Tests
+
 The application was also tested with:
-Steel
-Aluminum
-Titanium
-Custom materials
-Multiple calculations in one session
-Invalid material choices
-Non-numeric input
-Negative values
-Custom material validation
-Session summaries
-Program termination
+
+- Steel
+- Aluminum
+- Titanium
+- Custom materials
+- Multiple calculations in one session
+- Invalid material choices
+- Non-numeric input
+- Negative values
+- Custom material validation
+- Session summaries
+- Program termination
