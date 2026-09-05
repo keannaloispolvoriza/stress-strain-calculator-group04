@@ -71,7 +71,7 @@ def select_material():
 
         if choice == "c":
             try:
-                return create_custom_material()
+                return create_material_database()
             except ValueError as error:
                 print(f"Invalid material: {error}")
                 continue
