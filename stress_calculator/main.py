@@ -189,8 +189,7 @@ def main():
                 return
 
             print("Please enter y or n.")
-            print("\n=== Session Summary ===")
-            print(analysis.summary())
+            
             if analysis.tests:
                 save_choice = input(
                     "\nSave results to JSON? (y/n): "
@@ -212,11 +211,9 @@ def main():
                     "results.csv"
                 )
                 print("Results exported to results.csv.")
-
-    
-
-
-    print("\nProgram ended. Thank you!")
+                print("\n=== Session Summary ===")
+                print(analysis.summary())
+                print("\nProgram ended. Thank you!")
 
 
 if __name__ == "__main__":
